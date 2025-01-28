@@ -34,16 +34,23 @@
     </div>
 
     <script>
+        // Использование существующего объекта tg, если он уже определён
         const tg = window.Telegram.WebApp;
 
         // Настройки мини-приложения
-        tg.ready();
-        tg.MainButton.setText("Закрыть Mini App");
-        tg.MainButton.show();
+        if (tg) {
+            tg.ready();
+            tg.MainButton.setText("Закрыть Mini App");
+            tg.MainButton.show();
+        }
 
         // Отправка данных
         document.getElementById('sendData').addEventListener('click', () => {
-            tg.sendData(JSON.stringify({ message: "Привет из Mini App!" })); // Отправка данных в бот
+            if (tg) {
+                tg.sendData(JSON.stringify({ message: "Привет из Mini App!" })); // Отправка данных в бот
+            } else {
+                console.error("Telegram WebApp API недоступен.");
+            }
         });
     </script>
 </body>
